@@ -1,7 +1,7 @@
 package com.sefagurel.rsshaber_sondakika.api;
 
-import com.sefagurel.rsshaber_sondakika.models.NewsModel;
-import com.sefagurel.rsshaber_sondakika.models.SearchModel;
+import com.sefagurel.rsshaber_sondakika.models.search.SearchModel;
+import com.sefagurel.rsshaber_sondakika.models.news.NewsModel;
 
 import retrofit.Call;
 import retrofit.http.GET;

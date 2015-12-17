@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 import com.sefagurel.rsshaber_sondakika.R;
 import com.sefagurel.rsshaber_sondakika.adapters.SearchResultListAdapter;
 import com.sefagurel.rsshaber_sondakika.api.MyApi;
-import com.sefagurel.rsshaber_sondakika.models.SearchModel;
+import com.sefagurel.rsshaber_sondakika.models.search.SearchModel;
 import com.sefagurel.rsshaber_sondakika.tools.Consts;
 import com.sefagurel.rsshaber_sondakika.tools.ItemClickSupport;
 

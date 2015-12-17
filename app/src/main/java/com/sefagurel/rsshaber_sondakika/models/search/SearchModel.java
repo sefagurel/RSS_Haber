@@ -1,4 +1,4 @@
-package com.sefagurel.rsshaber_sondakika.models;
+package com.sefagurel.rsshaber_sondakika.models.search;
 
 import java.util.List;
 

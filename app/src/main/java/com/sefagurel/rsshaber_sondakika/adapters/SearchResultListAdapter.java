@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sefagurel.rsshaber_sondakika.R;
-import com.sefagurel.rsshaber_sondakika.models.SearchModel;
+import com.sefagurel.rsshaber_sondakika.models.search.SearchModel;
 import com.sefagurel.rsshaber_sondakika.tools.ImageTools;
 
 public class SearchResultListAdapter extends RecyclerView.Adapter<SearchResultListAdapter.CardviewHolder> {

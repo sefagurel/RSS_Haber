@@ -6,99 +6,107 @@ import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sefagurel.rsshaber_sondakika.api.MyApi;
 import com.sefagurel.rsshaber_sondakika.fragments.SearchFragment;
-import com.sefagurel.rsshaber_sondakika.models.NewsModel;
-import com.sefagurel.rsshaber_sondakika.models.SearchModel;
+import com.sefagurel.rsshaber_sondakika.models.news.NewsModel;
 import com.sefagurel.rsshaber_sondakika.tools.Consts;
 
 public class MainActivity extends AppCompatActivity {
 
-	private SearchView searchView;
+    public static Context context;
+    NewsModel newsModel;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-		drawer.setDrawerListener(toggle);
-		toggle.syncState();
+        context = getBaseContext();
 
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-		Fragment layout1 = new SearchFragment();
-		fragmentTransaction.replace(R.id.container, layout1);
-		fragmentTransaction.commit();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
-	}
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-	public void getData() {
-		Retrofit retrofit = new Retrofit.Builder().baseUrl(Consts.SEARCH_URL).addConverterFactory(GsonConverterFactory.create()).build();
+        Fragment layout1 = new SearchFragment();
+        fragmentTransaction.replace(R.id.container, layout1);
+        fragmentTransaction.commit();
+        getData();
+    }
 
-		MyApi service = retrofit.create(MyApi.class);
+    public void getData() {
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-		Call<NewsModel> repos = service.getRSSData("feed/http://donanimhaber.com/rss/tum/", "10");
 
-		repos.enqueue(new Callback<NewsModel>() {
-			@Override
-			public void onResponse(Response<NewsModel> response, Retrofit retrofit) {
-				System.out.println("");
-			}
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Consts.SEARCH_URL).addConverterFactory(GsonConverterFactory.create(gson)).build();
 
-			@Override
-			public void onFailure(Throwable t) {
-				System.out.println("");
-			}
-		});
-	}
+        MyApi service = retrofit.create(MyApi.class);
 
-	@Override
-	public void onBackPressed() {
-		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-		if (drawer.isDrawerOpen(GravityCompat.START)) {
-			drawer.closeDrawer(GravityCompat.START);
-		}
-		else {
-			super.onBackPressed();
-		}
-	}
+        Call<NewsModel> repos = service.getRSSData("feed/http://donanimhaber.com/rss/tum/", "10");
 
-	// @Override
-	// public boolean onCreateOptionsMenu(Menu menu) {
-	// getMenuInflater().inflate(R.menu.main, menu);
-	// return true;
-	// }
-	//
-	// @Override
-	// public boolean onOptionsItemSelected(MenuItem item) {
-	// int id = item.getItemId();
-	//
-	// if (id == R.id.action_settings) {
-	// return true;
-	// }
-	// return super.onOptionsItemSelected(item);
-	// }
+        repos.enqueue(new Callback<NewsModel>() {
+            @Override
+            public void onResponse(Response<NewsModel> response, Retrofit retrofit) {
+                System.out.println("onResponse");
+                newsModel = response.body();
+                newsModel.Insert();
+            }
 
+            @Override
+            public void onFailure(Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    // @Override
+    // public boolean onCreateOptionsMenu(Menu menu) {
+    // getMenuInflater().inflate(R.menu.main, menu);
+    // return true;
+    // }
+    //
+    // @Override
+    // public boolean onOptionsItemSelected(MenuItem item) {
+    // int id = item.getItemId();
+    //
+    // if (id == R.id.action_settings) {
+    // return true;
+    // }
+    // return super.onOptionsItemSelected(item);
+    // }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        newsModel.Destroy();
+    }
 }
