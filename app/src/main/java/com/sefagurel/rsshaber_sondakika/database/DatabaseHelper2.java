@@ -27,40 +27,40 @@ import com.sefagurel.rsshaber_sondakika.models.news.VisualEntity;
 import com.sefagurel.rsshaber_sondakika.tools.Info;
 import com.sefagurel.rsshaber_sondakika.tools.Tools;
 
-public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
+public class DatabaseHelper2 extends OrmLiteSqliteOpenHelper {
 
 	private static final int		DATABASE_VERSION	= Info.DATABASE_VERSION;
 	private static final String		DATABASE_NAME		= Info.DATABASE_NAME;
 	private static final String		MAP_DATABASE_NAME	= Info.MAP_DBNAME;
 	private final Context			myContext;
-	private static DatabaseHelper	dbHelper			= null;
+	private static DatabaseHelper2 dbHelper			= null;
 	private static final String		MAP_DATABASE_PATH	= "/data/data/com.sefagurel.rsshaber_sondakika/databases/";
 	private static Object			syncObject			= new Object();
 	private Boolean					isHaveDB			= false;
 
-	public DatabaseHelper(Context context) {
+	public DatabaseHelper2(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		this.myContext = context;
 		// this.getReadableDatabase();
 		// this.getWritableDatabase();
 	}
 
-	public static synchronized DatabaseHelper getDbHelper() {
+	public static synchronized DatabaseHelper2 getDbHelper() {
 		if (dbHelper == null) {
-			dbHelper = new DatabaseHelper(MainActivity.context);
+			dbHelper = new DatabaseHelper2(MainActivity.context);
 		}
 		return dbHelper;
 	}
 
 	private Dao<MissionsBuildings, Integer> MissionsBuildingsDataHelper = null;
 
-	private Dao<AlternateEntity, String>	AlternateEntityDataHelper	= null;
-	private Dao<EnclosureEntity, String>	EnclosureEntityDataHelper	= null;
-	private Dao<ItemsEntity, String>		ItemsEntityDataHelper		= null;
-	private Dao<NewsModel, String>			NewsModelDataHelper			= null;
-	private Dao<OriginEntity, String>		OriginEntityDataHelper		= null;
-	private Dao<SummaryEntity, String>		SummaryEntityDataHelper		= null;
-	private Dao<VisualEntity, String>		VisualEntityDataHelper		= null;
+	private Dao<AlternateEntity, Integer>	AlternateEntityDataHelper	= null;
+	private Dao<EnclosureEntity, Integer>	EnclosureEntityDataHelper	= null;
+	private Dao<ItemsEntity, Integer>		ItemsEntityDataHelper		= null;
+	private Dao<NewsModel, Integer>			NewsModelDataHelper			= null;
+	private Dao<OriginEntity, Integer>		OriginEntityDataHelper		= null;
+	private Dao<SummaryEntity, Integer>		SummaryEntityDataHelper		= null;
+	private Dao<VisualEntity, Integer>		VisualEntityDataHelper		= null;
 
 	@Override
 	public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
@@ -75,7 +75,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(connectionSource, SummaryEntity.class);
 			TableUtils.createTable(connectionSource, VisualEntity.class);
 		}
-		catch (java.sql.SQLException e) {
+		catch (SQLException e) {
 			Tools.saveErrors(e);
 		}
 	}
@@ -117,7 +117,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
 		try {
-			Log.i(DatabaseHelper.class.getName(), "onUpgrade");
+			Log.i(DatabaseHelper2.class.getName(), "onUpgrade");
 
 			TableUtils.dropTable(connectionSource, MissionsBuildings.class, true);
 			TableUtils.dropTable(connectionSource, AlternateEntity.class, true);
@@ -130,7 +130,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 			onCreate(db, connectionSource);
 		}
-		catch (java.sql.SQLException e) {
+		catch (SQLException e) {
 			Tools.saveErrors(e);
 
 		}
@@ -243,49 +243,49 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		return MissionsBuildingsDataHelper;
 	}
 
-	public Dao<AlternateEntity, String> getAlternateEntityDataHelper() throws SQLException {
+	public Dao<AlternateEntity, Integer> getAlternateEntityDataHelper() throws SQLException {
 		if (AlternateEntityDataHelper == null) {
 			AlternateEntityDataHelper = getDao(AlternateEntity.class);
 		}
 		return AlternateEntityDataHelper;
 	}
 
-	public Dao<EnclosureEntity, String> getEnclosureEntityDataHelper() throws SQLException {
+	public Dao<EnclosureEntity, Integer> getEnclosureEntityDataHelper() throws SQLException {
 		if (EnclosureEntityDataHelper == null) {
 			EnclosureEntityDataHelper = getDao(EnclosureEntity.class);
 		}
 		return EnclosureEntityDataHelper;
 	}
 
-	public Dao<ItemsEntity, String> getItemsEntityDataHelper() throws SQLException {
+	public Dao<ItemsEntity, Integer> getItemsEntityDataHelper() throws SQLException {
 		if (ItemsEntityDataHelper == null) {
 			ItemsEntityDataHelper = getDao(ItemsEntity.class);
 		}
 		return ItemsEntityDataHelper;
 	}
 
-	public Dao<NewsModel, String> getNewsModelDataHelper() throws SQLException {
+	public Dao<NewsModel, Integer> getNewsModelDataHelper() throws SQLException {
 		if (NewsModelDataHelper == null) {
 			NewsModelDataHelper = getDao(NewsModel.class);
 		}
 		return NewsModelDataHelper;
 	}
 
-	public Dao<OriginEntity, String> getOriginEntityDataHelper() throws SQLException {
+	public Dao<OriginEntity, Integer> getOriginEntityDataHelper() throws SQLException {
 		if (OriginEntityDataHelper == null) {
 			OriginEntityDataHelper = getDao(OriginEntity.class);
 		}
 		return OriginEntityDataHelper;
 	}
 
-	public Dao<SummaryEntity, String> getSummaryEntityDataHelper() throws SQLException {
+	public Dao<SummaryEntity, Integer> getSummaryEntityDataHelper() throws SQLException {
 		if (SummaryEntityDataHelper == null) {
 			SummaryEntityDataHelper = getDao(SummaryEntity.class);
 		}
 		return SummaryEntityDataHelper;
 	}
 
-	public Dao<VisualEntity, String> getVisualEntityDataHelper() throws SQLException {
+	public Dao<VisualEntity, Integer> getVisualEntityDataHelper() throws SQLException {
 		if (VisualEntityDataHelper == null) {
 			VisualEntityDataHelper = getDao(VisualEntity.class);
 		}

@@ -18,8 +18,7 @@ import com.sefagurel.rsshaber_sondakika.database.MissionsBuildings;
 @DatabaseTable(tableName = "NewsModel")
 public class NewsModel {
 
-	@DatabaseField(generatedId = true) public int	columnId;
-	@Expose @DatabaseField public String			id;
+	@Expose @DatabaseField(id = true) public String	id;
 	@Expose @DatabaseField public String			direction;
 	@Expose @DatabaseField public long				updated;
 	@Expose @DatabaseField public String			title;
@@ -28,7 +27,7 @@ public class NewsModel {
 	@Expose public ArrayList<ItemsEntity>			items;
 
 	private DatabaseHelper			databaseHelper	= null;
-	private Dao<NewsModel, Integer>	myDao;
+	private Dao<NewsModel, String>	myDao;
 
 	public NewsModel() {
 		try {
@@ -43,7 +42,7 @@ public class NewsModel {
 
 	public void Insert() {
 		try {
-			NewsModel existenceCheck = myDao.queryForId(this.columnId);
+			NewsModel existenceCheck = myDao.queryForId(this.id);
 
 			if (existenceCheck != null) {
 				myDao.update(this);
@@ -52,13 +51,18 @@ public class NewsModel {
 				myDao.create(this);
 			}
 
-			for (AlternateEntity alternateEntity : alternate) {
-				// alternateEntity.columnId = columnId;
-				alternateEntity.Insert();
+			if (alternate != null && alternate.size() > 0) {
+				for (AlternateEntity alternateEntity : alternate) {
+					alternateEntity.parentId = id;
+					alternateEntity.Insert();
+				}
 			}
-			for (ItemsEntity itemsEntity : items) {
-				// itemsEntity.columnId = columnId;
-				itemsEntity.Insert();
+
+			if (items != null && items.size() > 0) {
+				for (ItemsEntity itemsEntity : items) {
+					itemsEntity.parentId = id;
+					itemsEntity.Insert();
+				}
 			}
 
 		}

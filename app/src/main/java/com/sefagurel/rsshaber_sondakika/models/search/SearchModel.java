@@ -4,39 +4,45 @@ import java.util.List;
 
 public final class SearchModel {
 
-	public String				hint;
 	public String				queryType;
+	public String				hint;
 	public String				scheme;
 	public List<ResultsEntity>	results;
 	public List<String>			related;
-
 
 	public static class ResultsEntity {
 		public String		feedId;
 		public String		language;
 		public String		title;
-		public double		velocity;
+		public float		velocity;
 		public int			subscribers;
 		public long			lastUpdated;
 		public String		website;
-		public double		score;
-		public double		coverage;
-		public double		coverageScore;
+		public float		score;
+		public boolean		curated;
+		public boolean		featured;
+		public float		coverage;
+		public float		coverageScore;
 		public int			estimatedEngagement;
 		public String		hint;
 		public String		scheme;
-		public String		description;
 		public String		contentType;
+		public String		description;
 		public String		coverUrl;
 		public String		iconUrl;
 		public boolean		partial;
 		public String		twitterScreenName;
 		public String		visualUrl;
 		public String		coverColor;
-		public int			twitterFollowers;
+		public long			twitterFollowers;
 		public String		facebookUsername;
-		public int			facebookLikes;
-		public double		art;
+		public long			facebookLikes;
+		public float		art;
+		public String		logo;
+		public String		relatedLayout;
+		public String		relatedTarget;
 		public List<String>	deliciousTags;
+
 	}
+
 }

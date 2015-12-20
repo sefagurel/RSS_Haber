@@ -15,17 +15,17 @@ import java.sql.SQLException;
 @DatabaseTable(tableName = "VisualEntity")
 public class VisualEntity {
 
-	@DatabaseField(generatedId = true) public int	columnId;
-	@Expose @DatabaseField public String			url;
-	@Expose @DatabaseField public long				expirationDate;
-	@Expose @DatabaseField public int				width;
-	@Expose @DatabaseField public int				height;
-	@Expose @DatabaseField public String			edgeCacheUrl;
-	@Expose @DatabaseField public String			processor;
-	@Expose @DatabaseField public String			contentType;
+	@DatabaseField(id = true) public String	parentId;
+	@Expose @DatabaseField public String	url;
+	@Expose @DatabaseField public long		expirationDate;
+	@Expose @DatabaseField public int		width;
+	@Expose @DatabaseField public int		height;
+	@Expose @DatabaseField public String	edgeCacheUrl;
+	@Expose @DatabaseField public String	processor;
+	@Expose @DatabaseField public String	contentType;
 
 	private DatabaseHelper				databaseHelper	= null;
-	private Dao<VisualEntity, Integer>	myDao;
+	private Dao<VisualEntity, String>	myDao;
 
 	public VisualEntity() {
 		try {
@@ -39,7 +39,7 @@ public class VisualEntity {
 
 	public void Insert() {
 		try {
-			VisualEntity existenceCheck = myDao.queryForId(this.columnId);
+			VisualEntity existenceCheck = myDao.queryForId(this.parentId);
 
 			if (existenceCheck != null) {
 				myDao.update(this);

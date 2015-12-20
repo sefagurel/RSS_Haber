@@ -15,12 +15,12 @@ import java.sql.SQLException;
 @DatabaseTable(tableName = "SummaryEntity")
 public class SummaryEntity {
 
-	@DatabaseField(generatedId = true) public int	columnId;
-	@Expose @DatabaseField public String				content;
-	@Expose @DatabaseField public String				direction;
+	@DatabaseField(id = true) public String	parentId;
+	@Expose @DatabaseField public String	content;
+	@Expose @DatabaseField public String	direction;
 
 	private DatabaseHelper				databaseHelper	= null;
-	private Dao<SummaryEntity, Integer>	myDao;
+	private Dao<SummaryEntity, String>	myDao;
 
 	public SummaryEntity() {
 		try {
@@ -34,7 +34,7 @@ public class SummaryEntity {
 
 	public void Insert() {
 		try {
-			SummaryEntity existenceCheck = myDao.queryForId(this.columnId);
+			SummaryEntity existenceCheck = myDao.queryForId(this.parentId);
 
 			if (existenceCheck != null) {
 				myDao.update(this);

@@ -15,12 +15,12 @@ import com.sefagurel.rsshaber_sondakika.database.DatabaseHelper;
 @DatabaseTable(tableName = "AlternateEntity")
 public class AlternateEntity {
 
-	@DatabaseField(generatedId = true) public int	columnId;
-	@Expose @DatabaseField public String				href;
-	@Expose @DatabaseField public String				type;
+	@Expose @DatabaseField(id = true) public String	href;
+	@DatabaseField public String					parentId;
+	@Expose @DatabaseField public String			type;
 
 	private DatabaseHelper					databaseHelper	= null;
-	private Dao<AlternateEntity, Integer>	myDao;
+	private Dao<AlternateEntity, String>	myDao;
 
 	public AlternateEntity() {
 		try {
@@ -34,7 +34,7 @@ public class AlternateEntity {
 
 	public void Insert() {
 		try {
-			AlternateEntity existenceCheck = myDao.queryForId(this.columnId);
+			AlternateEntity existenceCheck = myDao.queryForId(this.href);
 
 			if (existenceCheck != null) {
 				myDao.update(this);

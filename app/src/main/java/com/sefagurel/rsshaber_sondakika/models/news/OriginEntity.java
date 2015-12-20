@@ -15,13 +15,13 @@ import java.sql.SQLException;
 @DatabaseTable(tableName = "OriginEntity")
 public class OriginEntity {
 
-	@DatabaseField(generatedId = true) public int	columnId;
-	@Expose @DatabaseField public String				streamId;
-	@Expose @DatabaseField public String				title;
-	@Expose @DatabaseField public String				htmlUrl;
+    @DatabaseField(id = true) public String	parentId;
+    @Expose @DatabaseField public String	streamId;
+	@Expose @DatabaseField public String	title;
+	@Expose @DatabaseField public String	htmlUrl;
 
 	private DatabaseHelper				databaseHelper	= null;
-	private Dao<OriginEntity, Integer>	myDao;
+	private Dao<OriginEntity, String>	myDao;
 
 	public OriginEntity() {
 		try {
@@ -35,7 +35,7 @@ public class OriginEntity {
 
 	public void Insert() {
 		try {
-			OriginEntity existenceCheck = myDao.queryForId(this.columnId);
+			OriginEntity existenceCheck = myDao.queryForId(this.streamId);
 
 			if (existenceCheck != null) {
 				myDao.update(this);

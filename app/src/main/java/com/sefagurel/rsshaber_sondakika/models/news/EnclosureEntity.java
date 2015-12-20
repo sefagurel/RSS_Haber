@@ -14,13 +14,13 @@ import java.sql.SQLException;
 
 @DatabaseTable(tableName = "EnclosureEntity")
 public class EnclosureEntity {
-	@DatabaseField(generatedId = true) public int	columnId;
-	@Expose @DatabaseField public String				href;
-	@Expose @DatabaseField public String				type;
+    @Expose @DatabaseField(id = true) public String	href;
+    @DatabaseField public String					parentId;
+	@Expose @DatabaseField public String			type;
 	@Expose @DatabaseField public int				length;
 
 	private DatabaseHelper					databaseHelper	= null;
-	private Dao<EnclosureEntity, Integer>	myDao;
+	private Dao<EnclosureEntity, String>	myDao;
 
 	public EnclosureEntity() {
 		try {
@@ -34,7 +34,7 @@ public class EnclosureEntity {
 
 	public void Insert() {
 		try {
-			EnclosureEntity existenceCheck = myDao.queryForId(this.columnId);
+			EnclosureEntity existenceCheck = myDao.queryForId(this.href);
 
 			if (existenceCheck != null) {
 				myDao.update(this);
