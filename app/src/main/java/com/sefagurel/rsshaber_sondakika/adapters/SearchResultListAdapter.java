@@ -10,11 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sefagurel.rsshaber_sondakika.R;
-import com.sefagurel.rsshaber_sondakika.models.search.SearchModel;
+import com.sefagurel.rsshaber_sondakika.database.Favorites;
+import com.sefagurel.rsshaber_sondakika.models.SearchModel;
 import com.sefagurel.rsshaber_sondakika.tools.ImageTools;
 
 public class SearchResultListAdapter extends RecyclerView.Adapter<SearchResultListAdapter.CardviewHolder> {
@@ -39,15 +42,37 @@ public class SearchResultListAdapter extends RecyclerView.Adapter<SearchResultLi
 	}
 
 	@Override
-	public void onBindViewHolder(CardviewHolder holder, int position) {
+	public void onBindViewHolder(final CardviewHolder holder, int position) {
 
-		SearchModel.ResultsEntity result = resultList.get(position);
+		final SearchModel.ResultsEntity result = resultList.get(position);
 
 		ImageTools.showFitImage(holder.imageView.getContext(), holder.imageView, result.visualUrl);
 
 		holder.tvTitle.setText(result.title);
 		holder.tvSubTitle.setText(result.description);
-//		setAnimation(holder.cardView, position);
+
+		holder.checkBox.setOnCheckedChangeListener(null);
+		holder.checkBox.setChecked(result.isSelected);
+
+		holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				result.isSelected = isChecked;
+
+				Favorites favorites = new Favorites();
+
+				if (isChecked) {
+					favorites.id = result.feedId;
+					favorites.Insert();
+				}
+				else {
+                    favorites.DeleteRow(result.feedId);
+				}
+
+			}
+		});
+
+		// setAnimation(holder.cardView, position);
 	}
 
 	private void setAnimation(View viewToAnimate, int position) {
@@ -70,6 +95,7 @@ public class SearchResultListAdapter extends RecyclerView.Adapter<SearchResultLi
 		ImageView	imageView;
 		TextView	tvTitle;
 		TextView	tvSubTitle;
+		CheckBox	checkBox;
 
 		public CardviewHolder(View itemView) {
 			super(itemView);
@@ -77,7 +103,7 @@ public class SearchResultListAdapter extends RecyclerView.Adapter<SearchResultLi
 			imageView = (ImageView) itemView.findViewById(R.id.iv_image);
 			tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
 			tvSubTitle = (TextView) itemView.findViewById(R.id.tv_subtitle);
-
+			checkBox = (CheckBox) itemView.findViewById(R.id.checkbox);
 		}
 
 	}

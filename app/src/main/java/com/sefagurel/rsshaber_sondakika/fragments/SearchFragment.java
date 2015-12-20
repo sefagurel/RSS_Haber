@@ -3,6 +3,7 @@ package com.sefagurel.rsshaber_sondakika.fragments;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,7 +22,7 @@ import android.view.ViewGroup;
 import com.sefagurel.rsshaber_sondakika.R;
 import com.sefagurel.rsshaber_sondakika.adapters.SearchResultListAdapter;
 import com.sefagurel.rsshaber_sondakika.api.MyApi;
-import com.sefagurel.rsshaber_sondakika.models.search.SearchModel;
+import com.sefagurel.rsshaber_sondakika.models.SearchModel;
 import com.sefagurel.rsshaber_sondakika.tools.Consts;
 import com.sefagurel.rsshaber_sondakika.tools.ItemClickSupport;
 
@@ -85,11 +86,11 @@ public class SearchFragment extends Fragment {
 				ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
 					@Override
 					public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-						// Intent i = new Intent(getActivity(), SubSpeciesActivity.class);
-						// SpeciesCardListAdapter speciesCardListAdapter = (SpeciesCardListAdapter) recyclerView.getAdapter();
-						// SpeciesCardModel speciesCardModel = speciesCardListAdapter.getItemByPosition(position);
-						// i.putExtra("SpeciesCardModel", speciesCardModel);
-						// startActivity(i);
+//						 Intent i = new Intent(getActivity(), SubSpeciesActivity.class);
+//						 SpeciesCardListAdapter speciesCardListAdapter = (SpeciesCardListAdapter) recyclerView.getAdapter();
+//						 SpeciesCardModel speciesCardModel = speciesCardListAdapter.getItemByPosition(position);
+//						 i.putExtra("SpeciesCardModel", speciesCardModel);
+//						 startActivity(i);
 					}
 				});
 

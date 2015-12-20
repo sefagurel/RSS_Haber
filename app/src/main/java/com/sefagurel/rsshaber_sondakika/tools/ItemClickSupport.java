@@ -5,10 +5,9 @@ import android.view.View;
 
 import com.sefagurel.rsshaber_sondakika.R;
 
-
 public class ItemClickSupport {
 
-	private final RecyclerView mRecyclerView;
+	private final RecyclerView		mRecyclerView;
 	private OnItemClickListener		mOnItemClickListener;
 	private OnItemLongClickListener	mOnItemLongClickListener;
 

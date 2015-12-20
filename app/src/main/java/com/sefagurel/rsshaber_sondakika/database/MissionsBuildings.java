@@ -44,9 +44,7 @@ public class MissionsBuildings {
 		try {
 			Dao<MissionsBuildings, Integer> Missionsinsert = (DatabaseHelper.getDbHelper()).getMissionsBuildingsDataHelper();
 			MissionsBuildings existenceCheck = Missionsinsert.queryForId(this.UserDailyMissionId);
-			if (IsCompleted == null) {
-				IsCompleted = false;
-			}
+
 			if (existenceCheck != null) {
 				Missionsinsert.update(this);
 			}
